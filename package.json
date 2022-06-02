@@ -19,9 +19,6 @@
     "name": "POW Games",
     "url": "https://pow.games/"
   },
-  "dependencies": {
-    "applovin.max": "5.4.2"
-  },
   "license": "ISC",
   "repository": {
     "type": "git",
