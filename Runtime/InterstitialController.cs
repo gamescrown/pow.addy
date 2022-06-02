@@ -1,10 +1,12 @@
 using System;
+using pow.addy.SO;
 using UnityEngine;
 
-namespace PowSDK.Addy.Runtime
+namespace pow.addy.Runtime
 {
     public class InterstitialController : MonoBehaviour
     {
+        [SerializeField] private AdEventHandler adEventHandler;
         string adUnitId = "YOUR_AD_UNIT_ID";
         int retryAttempt;
 
@@ -44,13 +46,14 @@ namespace PowSDK.Addy.Runtime
                                    "\n...latency: " + networkResponse.LatencyMillis + " milliseconds" +
                                    "\n...credentials: " + networkResponse.Credentials;
 
-                if(networkResponse.Error != null)
+                if (networkResponse.Error != null)
                 {
                     waterfallInfoStr += "\n...error: " + networkResponse.Error;
                 }
             }
+
             print(waterfallInfoStr);
-            
+
             // Reset retry attempt
             retryAttempt = 0;
         }
@@ -59,8 +62,9 @@ namespace PowSDK.Addy.Runtime
         {
             // Interstitial ad failed to load 
             // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds)
-            
-            print("Waterfall Name: " + errorInfo.WaterfallInfo.Name + " and Test Name: " + errorInfo.WaterfallInfo.TestName);
+
+            print("Waterfall Name: " + errorInfo.WaterfallInfo.Name + " and Test Name: " +
+                  errorInfo.WaterfallInfo.TestName);
             print("Waterfall latency was: " + errorInfo.WaterfallInfo.LatencyMillis + " milliseconds");
 
             foreach (var networkResponse in errorInfo.WaterfallInfo.NetworkResponses)
@@ -94,15 +98,20 @@ namespace PowSDK.Addy.Runtime
 
         private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            adEventHandler.RaiseInterstitialAdCompleteEvent();
             // Interstitial ad is hidden. Pre-load the next ad.
             LoadInterstitial();
         }
+
         private void OnInterstitialAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             double revenue = adInfo.Revenue;
-    
+
             // Miscellaneous data
-            string countryCode = MaxSdk.GetSdkConfiguration().CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
+            string
+                countryCode =
+                    MaxSdk.GetSdkConfiguration()
+                        .CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
             string networkName = adInfo.NetworkName; // Display name of the network that showed the ad (e.g. "AdColony")
             string adUnitIdentifier = adInfo.AdUnitIdentifier; // The MAX Ad Unit ID
             string placement = adInfo.Placement; // The placement this ad's postbacks are tied to

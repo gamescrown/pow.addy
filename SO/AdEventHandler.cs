@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace PowSDK.Addy.SO
+namespace pow.addy.SO
 {
     [CreateAssetMenu(fileName = "AdEventHandler", menuName = "POW_SDK/Addy", order = 0)]
     public class AdEventHandler : ScriptableObject
@@ -22,11 +22,13 @@ namespace PowSDK.Addy.SO
         public void RaiseInterstitialAdCompleteEvent()
         {
             onInterstitialAdCompleted?.Invoke();
+            onInterstitialAdCompleted = null;
         }
 
         public void RaiseRewardedAdCompleteEvent()
         {
             onRewardedAdCompleted?.Invoke();
+            onRewardedAdCompleted = null;
         }
     }
 }

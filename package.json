@@ -3,17 +3,24 @@
   "version": "0.0.6",
   "description": "",
   "main": "",
-  "displayName": "POW_Addy",
+  "displayName": "POW Addy",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/@gamescrown"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "Pow",
+    "Addy",
+    "SDK"
+  ],
   "author": {
     "name": "POW Games",
     "url": "https://pow.games/"
+  },
+  "dependencies": {
+    "MaxSdk": "5.4.2"
   },
   "license": "ISC",
   "repository": {

@@ -1,9 +1,18 @@
+using System;
+using pow.addy.SO;
 using UnityEngine;
 
-namespace PowSDK.Addy.Runtime
+namespace pow.addy.Runtime
 {
+    [RequireComponent(
+            typeof(BannerController),
+            typeof(InterstitialController),
+            typeof(RewardedController)
+        )
+    ]
     public class AppLovinMaxManager : MonoBehaviour
     {
+        [SerializeField] private AdEventHandler adEventHandler;
         private InterstitialController _interstitialController;
         private RewardedController _rewardedController;
         private BannerController _bannerController;
@@ -44,6 +53,28 @@ namespace PowSDK.Addy.Runtime
             MaxSdk.SetSdkKey("YOUR_SDK_KEY_HERE");
             MaxSdk.SetUserId("USER_ID");
             MaxSdk.InitializeSdk();
+        }
+
+        public void ShowInterstitial(Action onCompleteAction)
+        {
+            adEventHandler.SetInterstitialCompletedAction(onCompleteAction);
+            _interstitialController.ShowInterstitial();
+        }
+
+        public void ShowRewarded(Action onCompleteAction)
+        {
+            adEventHandler.SetRewardedCompletedAction(onCompleteAction);
+            _rewardedController.ShowRewardedAd();
+        }
+
+        public void ShowBanner()
+        {
+            _bannerController.ShowBanner();
+        }
+
+        public void HideBanner()
+        {
+            _bannerController.HideBanner();
         }
     }
 }

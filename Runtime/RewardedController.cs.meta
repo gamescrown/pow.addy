@@ -3,7 +3,8 @@ guid: 93ce2dcebed6c422a95b794209fa61b9
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

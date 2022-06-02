@@ -1,10 +1,12 @@
 using System;
+using pow.addy.SO;
 using UnityEngine;
 
-namespace PowSDK.Addy.Runtime
+namespace pow.addy.Runtime
 {
     public class RewardedController : MonoBehaviour
     {
+        [SerializeField] private AdEventHandler adEventHandler;
         string adUnitId = "YOUR_AD_UNIT_ID";
         int retryAttempt;
 
@@ -72,7 +74,8 @@ namespace PowSDK.Addy.Runtime
 
         private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdk.Reward reward, MaxSdkBase.AdInfo adInfo)
         {
-            
+            adEventHandler.RaiseRewardedAdCompleteEvent();
+
             // The rewarded ad displayed and the user should receive the reward.
             print("Rewarded user: " + reward.Amount + " " + reward.Label);
         }
@@ -80,9 +83,12 @@ namespace PowSDK.Addy.Runtime
         private void OnRewardedAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             double revenue = adInfo.Revenue;
-    
+
             // Miscellaneous data
-            string countryCode = MaxSdk.GetSdkConfiguration().CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
+            string
+                countryCode =
+                    MaxSdk.GetSdkConfiguration()
+                        .CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
             string networkName = adInfo.NetworkName; // Display name of the network that showed the ad (e.g. "AdColony")
             string adUnitIdentifier = adInfo.AdUnitIdentifier; // The MAX Ad Unit ID
             string placement = adInfo.Placement; // The placement this ad's postbacks are tied to

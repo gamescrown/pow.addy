@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PowSDK.Addy.Runtime
+namespace pow.addy.Runtime
 {
     public class BannerController : MonoBehaviour
     {
