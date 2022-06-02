@@ -15,6 +15,9 @@
     "Addy",
     "SDK"
   ],
+  "dependencies": {
+    "pow.aidkit": "0.0.8"
+  },
   "author": {
     "name": "POW Games",
     "url": "https://pow.games/"
