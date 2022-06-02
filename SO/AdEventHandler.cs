@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace pow.addy.SO
+namespace pow.addy
 {
     [CreateAssetMenu(fileName = "AdEventHandler", menuName = "POW_SDK/Addy", order = 0)]
     public class AdEventHandler : ScriptableObject

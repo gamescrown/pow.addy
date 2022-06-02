@@ -1,8 +1,7 @@
 using System;
-using pow.addy.SO;
 using UnityEngine;
 
-namespace pow.addy.Runtime
+namespace pow.addy
 {
     public class RewardedController : MonoBehaviour
     {

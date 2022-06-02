@@ -2,7 +2,8 @@
     "name": "POW_Addy",
     "rootNamespace": "",
     "references": [
-        "MaxSdk.Scripts"
+        "MaxSdk.Scripts",
+        "Pow.AidKit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

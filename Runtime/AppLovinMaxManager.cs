@@ -1,8 +1,8 @@
 using System;
-using pow.addy.SO;
+using pow.aidkit;
 using UnityEngine;
 
-namespace pow.addy.Runtime
+namespace pow.addy
 {
     [RequireComponent(
             typeof(BannerController),
@@ -10,7 +10,7 @@ namespace pow.addy.Runtime
             typeof(RewardedController)
         )
     ]
-    public class AppLovinMaxManager : MonoBehaviour
+    public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
         [SerializeField] private AdEventHandler adEventHandler;
         private InterstitialController _interstitialController;

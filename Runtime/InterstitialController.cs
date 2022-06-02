@@ -1,16 +1,14 @@
 using System;
-using pow.addy.SO;
 using UnityEngine;
 
-namespace pow.addy.Runtime
+namespace pow.addy
 {
     public class InterstitialController : MonoBehaviour
     {
         [SerializeField] private AdEventHandler adEventHandler;
         string adUnitId = "YOUR_AD_UNIT_ID";
         int retryAttempt;
-
-
+        
         public void InitializeInterstitialAds()
         {
             // Attach callback
