@@ -1,5 +1,5 @@
 {
-  "name": "pow.addy",
+  "name": "caddy",
   "version": "0.0.3",
   "description": "",
   "main": "",
@@ -18,7 +18,7 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:gamescrown/pow.addy.git",
+    "url": "ssh://git@github.com:gamescrown/caddy.git",
     "directory": "POW SDK"
   }
 }
