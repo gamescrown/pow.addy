@@ -20,7 +20,7 @@
     "url": "https://pow.games/"
   },
   "dependencies": {
-    "MaxSdk": "5.4.2"
+    "applovin.max": "5.4.2"
   },
   "license": "ISC",
   "repository": {
