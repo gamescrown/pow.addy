@@ -3,6 +3,8 @@
     "rootNamespace": "",
     "references": [
         "MaxSdk.Scripts",
+        "MaxSdk.Scripts.IntegrationManager.Editor",
+        "MaxSdk.Scripts.Editor",
         "Pow.AidKit"
     ],
     "includePlatforms": [],
