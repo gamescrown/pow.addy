@@ -15,9 +15,6 @@
     "Addy",
     "SDK"
   ],
-  "dependencies": {
-    "private-repo": "git+ssh://git@github.com:gamescrown/pow.aidkit.git#v0.0.8"
-  },
   "author": {
     "name": "POW Games",
     "url": "https://pow.games/"
