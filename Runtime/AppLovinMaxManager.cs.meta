@@ -4,6 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - adKeys: {fileID: 11400000, guid: 47e9177655010e447b3ef36600aafb60, type: 2}
   - adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}

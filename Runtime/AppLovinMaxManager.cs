@@ -12,28 +12,41 @@ namespace pow.addy
     ]
     public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
+        [SerializeField] private AdKeys adKeys;
         [SerializeField] private AdEventHandler adEventHandler;
+
         private InterstitialController _interstitialController;
         private RewardedController _rewardedController;
         private BannerController _bannerController;
 
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            _bannerController = GetComponent<BannerController>();
             _rewardedController = GetComponent<RewardedController>();
             _interstitialController = GetComponent<InterstitialController>();
-            _bannerController = GetComponent<BannerController>();
+
+#if UNITY_ANDROID
+            _bannerController.SetAdID(adKeys.bannerIdAndroid);
+            _rewardedController.SetAdID(adKeys.rewardedIdAndroid);
+            _interstitialController.SetAdID(adKeys.interstitialIdAndroid);
+#elif UNITY_IOS
+            _bannerController.SetAdID(adKeys.bannerIdIOS);
+            _rewardedController.SetAdID(adKeys.rewardedIdIOS);
+            _interstitialController.SetAdID(adKeys.interstitialIdIOS);
+#endif
         }
 
-        void Start()
+        private void Start()
         {
-            MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) =>
+            MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
                 // AppLovin SDK is initialized, start loading ads
 
                 _interstitialController.InitializeInterstitialAds();
                 _rewardedController.InitializeRewardedAds();
                 _bannerController.InitializeBannerAds();
+                
                 MaxSdk.SetVerboseLogging(true);
                 MaxSdk.ShowMediationDebugger();
 

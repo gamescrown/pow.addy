@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace pow.addy
 {
-    public class InterstitialController : MonoBehaviour
+    public class InterstitialController : BaseAdController
     {
         [SerializeField] private AdEventHandler adEventHandler;
-        string adUnitId = "YOUR_AD_UNIT_ID";
-        int retryAttempt;
+
+        private int _retryAttempt;
         
         public void InitializeInterstitialAds()
         {
@@ -26,7 +26,7 @@ namespace pow.addy
 
         private void LoadInterstitial()
         {
-            MaxSdk.LoadInterstitial(adUnitId);
+            MaxSdk.LoadInterstitial(adID);
         }
 
         private void OnInterstitialLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -53,7 +53,7 @@ namespace pow.addy
             print(waterfallInfoStr);
 
             // Reset retry attempt
-            retryAttempt = 0;
+            _retryAttempt = 0;
         }
 
         private void OnInterstitialLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
@@ -73,8 +73,8 @@ namespace pow.addy
                       "\n...error: " + networkResponse.Error);
             }
 
-            retryAttempt++;
-            double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
+            _retryAttempt++;
+            double retryDelay = Math.Pow(2, Math.Min(6, _retryAttempt));
 
             Invoke("LoadInterstitial", (float) retryDelay);
         }
@@ -118,9 +118,9 @@ namespace pow.addy
 
         public void ShowInterstitial()
         {
-            if (MaxSdk.IsInterstitialReady(adUnitId))
+            if (MaxSdk.IsInterstitialReady(adID))
             {
-                MaxSdk.ShowInterstitial(adUnitId);
+                MaxSdk.ShowInterstitial(adID);
             }
         }
     }

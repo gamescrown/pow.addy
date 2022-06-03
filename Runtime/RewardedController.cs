@@ -3,12 +3,11 @@ using UnityEngine;
 
 namespace pow.addy
 {
-    public class RewardedController : MonoBehaviour
+    public class RewardedController : BaseAdController
     {
         [SerializeField] private AdEventHandler adEventHandler;
-        string adUnitId = "YOUR_AD_UNIT_ID";
-        int retryAttempt;
 
+        private int _retryAttempt;
 
         public void InitializeRewardedAds()
         {
@@ -28,7 +27,7 @@ namespace pow.addy
 
         private void LoadRewardedAd()
         {
-            MaxSdk.LoadRewardedAd(adUnitId);
+            MaxSdk.LoadRewardedAd(adID);
         }
 
         private void OnRewardedAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -36,7 +35,7 @@ namespace pow.addy
             // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
 
             // Reset retry attempt
-            retryAttempt = 0;
+            _retryAttempt = 0;
         }
 
         private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
@@ -44,10 +43,10 @@ namespace pow.addy
             // Rewarded ad failed to load 
             // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
 
-            retryAttempt++;
-            double retryDelay = Math.Pow(2, Math.Min(6, retryAttempt));
+            _retryAttempt++;
+            double retryDelay = Math.Pow(2, Math.Min(6, _retryAttempt));
 
-            Invoke("LoadRewardedAd", (float) retryDelay);
+            Invoke("LoadRewardedAd", (float)retryDelay);
         }
 
         private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -71,7 +70,8 @@ namespace pow.addy
             LoadRewardedAd();
         }
 
-        private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdk.Reward reward, MaxSdkBase.AdInfo adInfo)
+        private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdkBase.Reward reward,
+            MaxSdkBase.AdInfo adInfo)
         {
             adEventHandler.RaiseRewardedAdCompleteEvent();
 
@@ -96,9 +96,9 @@ namespace pow.addy
 
         public void ShowRewardedAd()
         {
-            if (MaxSdk.IsRewardedAdReady(adUnitId))
+            if (MaxSdk.IsRewardedAdReady(adID))
             {
-                MaxSdk.ShowRewardedAd(adUnitId);
+                MaxSdk.ShowRewardedAd(adID);
             }
         }
     }

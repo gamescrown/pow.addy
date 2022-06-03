@@ -2,21 +2,20 @@ using UnityEngine;
 
 namespace pow.addy
 {
-    public class BannerController : MonoBehaviour
-    {
-        string bannerAdUnitId = "YOUR_BANNER_AD_UNIT_ID"; // Retrieve the ID from your account
+    public class BannerController : BaseAdController
+    {// Retrieve the ID from your account
 
         public void InitializeBannerAds()
         {
             // Banners are automatically sized to 320×50 on phones and 728×90 on tablets
             // You may call the utility method MaxSdkUtils.isTablet() to help with view sizing adjustments
-            MaxSdk.CreateBanner(bannerAdUnitId, MaxSdkBase.BannerPosition.BottomCenter);
+            MaxSdk.CreateBanner(adID, MaxSdkBase.BannerPosition.BottomCenter);
 
             // For adaptive banners
             //MaxSdk.SetBannerExtraParameter(bannerAdUnitId, "adaptive_banner", "true");
 
             // Set background or background color for banners to be fully functional
-            MaxSdk.SetBannerBackgroundColor(bannerAdUnitId, new Color(1f, 0.38f, 0.82f));
+            MaxSdk.SetBannerBackgroundColor(adID, new Color(1f, 0.38f, 0.82f));
 
             MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnBannerAdLoadedEvent;
             MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnBannerAdLoadFailedEvent;
@@ -63,12 +62,13 @@ namespace pow.addy
 
         public void ShowBanner()
         {
-            MaxSdk.ShowBanner(bannerAdUnitId);
+            MaxSdk.ShowBanner(adID);
         }
 
         public void HideBanner()
         {
-            MaxSdk.HideBanner(bannerAdUnitId);
+            MaxSdk.HideBanner(adID);
         }
+
     }
 }
