@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1a84294abc334ba2a6f30e7b7c4a2ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adEventHandler: {fileID: 0}
 --- !u!114 &4093345391771533444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,4 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ec369aefc0984e388f9d1af5cd8b090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bannerIdIOS: 
+  rewardedIdIOS: 
+  interstitialIdIOS: 
+  bannerIdAndroid: 
+  rewardedIdAndroid: 
+  interstitialIdAndroid: 
   adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}

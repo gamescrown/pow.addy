@@ -5,8 +5,6 @@ namespace pow.addy
 {
     public class InterstitialController : BaseAdController
     {
-        [SerializeField] private AdEventHandler adEventHandler;
-
         private int _retryAttempt;
         
         public void InitializeInterstitialAds()

@@ -12,8 +12,13 @@ namespace pow.addy
     ]
     public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
-        [SerializeField] private AdKeys adKeys;
         [SerializeField] private AdEventHandler adEventHandler;
+        [Header("IOS")] [SerializeField] internal string bannerIdIOS;
+        [SerializeField] internal string rewardedIdIOS;
+        [SerializeField] internal string interstitialIdIOS;
+        [Header("ANDROID")] [SerializeField] internal string bannerIdAndroid;
+        [SerializeField] internal string rewardedIdAndroid;
+        [SerializeField] internal string interstitialIdAndroid;
 
         private InterstitialController _interstitialController;
         private RewardedController _rewardedController;
@@ -27,13 +32,13 @@ namespace pow.addy
             _interstitialController = GetComponent<InterstitialController>();
 
 #if UNITY_ANDROID
-            _bannerController.SetAdID(adKeys.bannerIdAndroid);
-            _rewardedController.SetAdID(adKeys.rewardedIdAndroid);
-            _interstitialController.SetAdID(adKeys.interstitialIdAndroid);
+            _bannerController.SetAdID(bannerIdAndroid);
+            _rewardedController.SetAdID(rewardedIdAndroid);
+            _interstitialController.SetAdID(interstitialIdAndroid);
 #elif UNITY_IOS
-            _bannerController.SetAdID(adKeys.bannerIdIOS);
-            _rewardedController.SetAdID(adKeys.rewardedIdIOS);
-            _interstitialController.SetAdID(adKeys.interstitialIdIOS);
+            _bannerController.SetAdID(bannerIdIOS);
+            _rewardedController.SetAdID(rewardedIdIOS);
+            _interstitialController.SetAdID(interstitialIdIOS);
 #endif
         }
 
@@ -46,7 +51,7 @@ namespace pow.addy
                 _interstitialController.InitializeInterstitialAds();
                 _rewardedController.InitializeRewardedAds();
                 _bannerController.InitializeBannerAds();
-                
+
                 MaxSdk.SetVerboseLogging(true);
                 MaxSdk.ShowMediationDebugger();
 

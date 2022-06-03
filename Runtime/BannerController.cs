@@ -3,7 +3,8 @@ using UnityEngine;
 namespace pow.addy
 {
     public class BannerController : BaseAdController
-    {// Retrieve the ID from your account
+    {
+        // Retrieve the ID from your account
 
         public void InitializeBannerAds()
         {
@@ -69,6 +70,5 @@ namespace pow.addy
         {
             MaxSdk.HideBanner(adID);
         }
-
     }
 }
