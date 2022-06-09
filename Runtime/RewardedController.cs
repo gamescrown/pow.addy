@@ -1,10 +1,13 @@
 using System;
+using pow.aidkit;
 using UnityEngine;
 
 namespace pow.addy
 {
     public class RewardedController : BaseAdController
     {
+        [SerializeField] private GameEvent onRewardedAdDisplayed;
+        [SerializeField] private GameEvent onRewardedAdReceivedReward;
         private int _retryAttempt;
 
         public void InitializeRewardedAds()
@@ -44,7 +47,7 @@ namespace pow.addy
             _retryAttempt++;
             double retryDelay = Math.Pow(2, Math.Min(6, _retryAttempt));
 
-            Invoke("LoadRewardedAd", (float)retryDelay);
+            Invoke("LoadRewardedAd", (float) retryDelay);
         }
 
         private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -71,8 +74,6 @@ namespace pow.addy
         private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdkBase.Reward reward,
             MaxSdkBase.AdInfo adInfo)
         {
-            adEventHandler.RaiseRewardedAdCompleteEvent();
-
             // The rewarded ad displayed and the user should receive the reward.
             print("Rewarded user: " + reward.Amount + " " + reward.Label);
         }
@@ -92,7 +93,7 @@ namespace pow.addy
             string networkPlacement = adInfo.NetworkPlacement; // The placement ID from the network that showed the ad
         }
 
-        public void ShowRewardedAd()
+        public void ShowRewardedAd(string tag)
         {
             if (MaxSdk.IsRewardedAdReady(adID))
             {

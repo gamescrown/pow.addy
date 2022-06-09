@@ -5,7 +5,8 @@
         "MaxSdk.Scripts",
         "MaxSdk.Scripts.IntegrationManager.Editor",
         "MaxSdk.Scripts.Editor",
-        "Pow.AidKit"
+        "Pow.AidKit",
+        "POW.hermes"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

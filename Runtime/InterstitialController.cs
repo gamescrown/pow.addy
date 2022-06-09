@@ -1,12 +1,20 @@
 using System;
+using pow.aidkit;
+using pow.hermes;
 using UnityEngine;
 
 namespace pow.addy
 {
     public class InterstitialController : BaseAdController
     {
+        [SerializeField] private GameEvent onInterstitialDisplayed;
+        [SerializeField] private GameEvent onInterstitialHidden;
+
+
         private int _retryAttempt;
-        
+        private string _interstitialNetworkName;
+        private string _latestInterstitialTag;
+
         public void InitializeInterstitialAds()
         {
             // Attach callback
@@ -50,6 +58,14 @@ namespace pow.addy
 
             print(waterfallInfoStr);
 
+            double ecpm = adInfo.Revenue * (1000 * 100);
+            BaseEventController.Instance.SendInterstitialLoadEvent(
+                adInfo.NetworkName,
+                InterstitialTag.untagged.ToString()
+            );
+            CpmEventController.SendEcpmEvent(ecpm);
+            CpmEventController.SendEcpmEventExcludeBanner(ecpm);
+
             // Reset retry attempt
             _retryAttempt = 0;
         }
@@ -79,22 +95,42 @@ namespace pow.addy
 
         private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            BaseEventController.Instance.SendInterstitialShowEvent(adInfo.NetworkName, _latestInterstitialTag);
+
+            // TODO: Create onInterstitialDisplayed game event and invoke from there,
+            onInterstitialDisplayed?.Invoke();
+            // TODO: Comment line functions will be listen created game event 
+            //gameStateSo.GameState = GameState.Pause;
+            //_isSoundAlreadyOn = settings.IsMusicOn;
+            //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
+            //if (settings.IsMusicOn) settings.ToggleMusicWithoutSaving();
+            //SaveInterstitialTimeIntervals();
         }
 
         private void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo,
             MaxSdkBase.AdInfo adInfo)
         {
+            // TODO: Send error info to analytics with parameter
+            BaseEventController.Instance.SendInterstitialFailedShowEvent(adInfo.NetworkName, _latestInterstitialTag);
             // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
             LoadInterstitial();
         }
 
         private void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            BaseEventController.Instance.SendInterstitialClickedEvent(adInfo.NetworkName, _latestInterstitialTag);
         }
 
         private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
-            adEventHandler.RaiseInterstitialAdCompleteEvent();
+            // TODO: Create OnInterstitialHiddenEvent game event and invoke from there,
+            onInterstitialHidden?.Invoke();
+            // TODO: Comment line functions will be listen created game event 
+            //gameStateSo.GameState = gameStateSo.LastGameState;
+            //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
+            //if (_isSoundAlreadyOn) settings.ToggleMusicWithoutSaving();
+            //LoadInterstitialTimeIntervals();
+
             // Interstitial ad is hidden. Pre-load the next ad.
             LoadInterstitial();
         }
@@ -112,12 +148,15 @@ namespace pow.addy
             string adUnitIdentifier = adInfo.AdUnitIdentifier; // The MAX Ad Unit ID
             string placement = adInfo.Placement; // The placement this ad's postbacks are tied to
             string networkPlacement = adInfo.NetworkPlacement; // The placement ID from the network that showed the ad
+
+            EventSender.AdjustApplovinAdRevenueEvent(revenue, networkName, adUnitIdentifier, placement);
         }
 
-        public void ShowInterstitial()
+        public void ShowInterstitial(string tag)
         {
             if (MaxSdk.IsInterstitialReady(adID))
             {
+                _latestInterstitialTag = tag;
                 MaxSdk.ShowInterstitial(adID);
             }
         }

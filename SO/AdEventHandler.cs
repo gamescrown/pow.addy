@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace pow.addy
 {
-    [CreateAssetMenu(fileName = "AdEventHandler", menuName = "POW_SDK/Addy", order = 0)]
+    [CreateAssetMenu(fileName = "AdEventHandler", menuName = "POW_SDK/Addy/AdEventHandler", order = 0)]
     public class AdEventHandler : ScriptableObject
     {
         private Action onInterstitialAdCompleted;
