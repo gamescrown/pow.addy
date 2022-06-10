@@ -1,3 +1,4 @@
+using pow.hermes;
 using UnityEngine;
 
 namespace pow.addy
@@ -16,7 +17,7 @@ namespace pow.addy
             //MaxSdk.SetBannerExtraParameter(bannerAdUnitId, "adaptive_banner", "true");
 
             // Set background or background color for banners to be fully functional
-            MaxSdk.SetBannerBackgroundColor(adID, new Color(1f, 0.38f, 0.82f));
+            MaxSdk.SetBannerBackgroundColor(adID, Color.white);
 
             MaxSdkCallbacks.Banner.OnAdLoadedEvent += OnBannerAdLoadedEvent;
             MaxSdkCallbacks.Banner.OnAdLoadFailedEvent += OnBannerAdLoadFailedEvent;
@@ -28,6 +29,9 @@ namespace pow.addy
 
         private void OnBannerAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            double ecpm = adInfo.Revenue * (1000 * 100);
+            AdEventController.Instance.SendEcpmEvent(ecpm);
+            AdEventController.Instance.SendBannerLoadedEvent(adInfo.NetworkName);
         }
 
         private void OnBannerAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
@@ -36,6 +40,7 @@ namespace pow.addy
 
         private void OnBannerAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            AdEventController.Instance.SendBannerClickedEvent(adInfo.NetworkName);
         }
 
         private void OnBannerAdExpandedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -59,6 +64,7 @@ namespace pow.addy
             string adUnitIdentifier = adInfo.AdUnitIdentifier; // The MAX Ad Unit ID
             string placement = adInfo.Placement; // The placement this ad's postbacks are tied to
             string networkPlacement = adInfo.NetworkPlacement; // The placement ID from the network that showed the ad
+            EventSender.AdjustApplovinAdRevenueEvent(revenue, networkName, adUnitIdentifier, placement);
         }
 
         public void ShowBanner()
