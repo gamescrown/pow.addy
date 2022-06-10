@@ -1,5 +1,6 @@
 using System;
 using pow.aidkit;
+using pow.hermes;
 using UnityEngine;
 
 namespace pow.addy
@@ -73,17 +74,17 @@ namespace pow.addy
             MaxSdk.InitializeSdk();
         }
 
-        public void ShowInterstitial(string interstitialTag, Action onCompleteAction)
+        public void ShowInterstitial(InterstitialTag interstitialTag, Action onCompleteAction)
         {
             adEventHandler.SetInterstitialCompletedAction(onCompleteAction);
-            _interstitialController.ShowInterstitial(interstitialTag);
+            _interstitialController.ShowInterstitial(interstitialTag.ToString());
         }
 
-        public void ShowRewarded(string rewardedTag, Action onCompletedAction, Action onFailedAction)
+        public void ShowRewarded(RewardedVideoTag rewardedTag, Action onCompletedAction, Action onFailedAction)
         {
             adEventHandler.SetRewardedCompletedAction(onCompletedAction);
             adEventHandler.SetRewardedFailedAction(onFailedAction);
-            _rewardedController.ShowRewardedAd(rewardedTag);
+            _rewardedController.ShowRewardedAd(rewardedTag.ToString());
         }
 
         public void ShowBanner()
