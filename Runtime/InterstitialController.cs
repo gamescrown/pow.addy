@@ -58,13 +58,13 @@ namespace pow.addy
 
             print(waterfallInfoStr);
 
-            double ecpm = adInfo.Revenue * (1000 * 100);
-            BaseEventController.Instance.SendInterstitialLoadEvent(
+            AdEventController.Instance.SendInterstitialLoadEvent(
                 adInfo.NetworkName,
                 InterstitialTag.untagged.ToString()
             );
-            CpmEventController.SendEcpmEvent(ecpm);
-            CpmEventController.SendEcpmEventExcludeBanner(ecpm);
+            double ecpm = adInfo.Revenue * (1000 * 100);
+            AdEventController.Instance.SendEcpmEvent(ecpm);
+            AdEventController.Instance.SendEcpmEventExcludeBanner(ecpm);
 
             // Reset retry attempt
             _retryAttempt = 0;
@@ -95,7 +95,7 @@ namespace pow.addy
 
         private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
-            BaseEventController.Instance.SendInterstitialShowEvent(adInfo.NetworkName, _latestInterstitialTag);
+            AdEventController.Instance.SendInterstitialShowEvent(adInfo.NetworkName, _latestInterstitialTag);
 
             // TODO: Create onInterstitialDisplayed game event and invoke from there,
             onInterstitialDisplayed?.Invoke();
@@ -111,20 +111,21 @@ namespace pow.addy
             MaxSdkBase.AdInfo adInfo)
         {
             // TODO: Send error info to analytics with parameter
-            BaseEventController.Instance.SendInterstitialFailedShowEvent(adInfo.NetworkName, _latestInterstitialTag);
+            AdEventController.Instance.SendInterstitialFailedShowEvent(adInfo.NetworkName, _latestInterstitialTag);
             // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
             LoadInterstitial();
         }
 
         private void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
-            BaseEventController.Instance.SendInterstitialClickedEvent(adInfo.NetworkName, _latestInterstitialTag);
+            AdEventController.Instance.SendInterstitialClickedEvent(adInfo.NetworkName, _latestInterstitialTag);
         }
 
         private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             // TODO: Create OnInterstitialHiddenEvent game event and invoke from there,
             onInterstitialHidden?.Invoke();
+            adEventHandler.RaiseInterstitialAdCompleteEvent();
             // TODO: Comment line functions will be listen created game event 
             //gameStateSo.GameState = gameStateSo.LastGameState;
             //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
@@ -154,11 +155,9 @@ namespace pow.addy
 
         public void ShowInterstitial(string tag)
         {
-            if (MaxSdk.IsInterstitialReady(adID))
-            {
-                _latestInterstitialTag = tag;
-                MaxSdk.ShowInterstitial(adID);
-            }
+            if (!MaxSdk.IsInterstitialReady(adID)) return;
+            _latestInterstitialTag = tag;
+            MaxSdk.ShowInterstitial(adID);
         }
     }
 }
