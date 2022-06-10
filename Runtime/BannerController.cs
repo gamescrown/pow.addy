@@ -24,7 +24,7 @@ namespace pow.addy
             MaxSdkCallbacks.Banner.OnAdClickedEvent += OnBannerAdClickedEvent;
             MaxSdkCallbacks.Banner.OnAdExpandedEvent += OnBannerAdExpandedEvent;
             MaxSdkCallbacks.Banner.OnAdCollapsedEvent += OnBannerAdCollapsedEvent;
-            MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += OnBannerAdRevenuePaidEvent;
+            MaxSdkCallbacks.Banner.OnAdRevenuePaidEvent += AdRevenuePaidEvent;
         }
 
         private void OnBannerAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
@@ -49,22 +49,6 @@ namespace pow.addy
 
         private void OnBannerAdCollapsedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
-        }
-
-        private void OnBannerAdRevenuePaidEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
-        {
-            double revenue = adInfo.Revenue;
-
-            // Miscellaneous data
-            string
-                countryCode =
-                    MaxSdk.GetSdkConfiguration()
-                        .CountryCode; // "US" for the United States, etc - Note: Do not confuse this with currency code which is "USD" in most cases!
-            string networkName = adInfo.NetworkName; // Display name of the network that showed the ad (e.g. "AdColony")
-            string adUnitIdentifier = adInfo.AdUnitIdentifier; // The MAX Ad Unit ID
-            string placement = adInfo.Placement; // The placement this ad's postbacks are tied to
-            string networkPlacement = adInfo.NetworkPlacement; // The placement ID from the network that showed the ad
-            EventSender.AdjustApplovinAdRevenueEvent(revenue, networkName, adUnitIdentifier, placement);
         }
 
         public void ShowBanner()
