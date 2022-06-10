@@ -16,6 +16,7 @@ namespace pow.addy
 
         public void InitializeRewardedAds()
         {
+            print("[ApplovinMAX] InitializeRewardedAds");
             // Attach callback
             MaxSdkCallbacks.Rewarded.OnAdLoadedEvent += OnRewardedAdLoadedEvent;
             MaxSdkCallbacks.Rewarded.OnAdLoadFailedEvent += OnRewardedAdLoadFailedEvent;
@@ -32,11 +33,13 @@ namespace pow.addy
 
         private void LoadRewardedAd()
         {
+            print("[ApplovinMAX] LoadRewardedAd");
             MaxSdk.LoadRewardedAd(adID);
         }
 
         private void OnRewardedAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdLoadedEvent");
             // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
             AdEventController.Instance.SendRewardedVideoLoadedEvent("null", RewardedVideoTag.untagged);
             double ecpm = adInfo.Revenue * (1000 * 100);
@@ -48,6 +51,7 @@ namespace pow.addy
 
         private void OnRewardedAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdLoadFailedEvent");
             // Rewarded ad failed to load 
             // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
 
@@ -59,6 +63,8 @@ namespace pow.addy
 
         private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdDisplayedEvent");
+            onRewardedAdDisplayed?.Invoke();
             AdEventController.Instance.SendRewardedVideoDisplayedEvent(adInfo.NetworkName, _latestRewardedVideoTag);
             // start timer for this ad identifier
             //GameAnalytics.StartTimer(_latestRewardedVideoTag.ToString());
@@ -71,6 +77,7 @@ namespace pow.addy
         private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo,
             MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdFailedToDisplayEvent");
             AdEventController.Instance.SendRewardedVideoFailedShowEvent(adInfo.NetworkName,
                 _latestRewardedVideoTag);
             // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
@@ -79,11 +86,13 @@ namespace pow.addy
 
         private void OnRewardedAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdClickedEvent");
             AdEventController.Instance.SendRewardedVideoClickedEvent(adInfo.NetworkName, _latestRewardedVideoTag);
         }
 
         private void OnRewardedAdHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdHiddenEvent");
             // Rewarded ad is hidden. Pre-load the next ad
             LoadRewardedAd();
         }
@@ -91,6 +100,7 @@ namespace pow.addy
         private void OnRewardedAdReceivedRewardEvent(string adUnitId, MaxSdkBase.Reward reward,
             MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnRewardedAdReceivedRewardEvent");
             AdEventController.Instance.SendRewardedVideoReceivedRewardEvent(adInfo.NetworkName,
                 _latestRewardedVideoTag);
             if (
@@ -115,7 +125,14 @@ namespace pow.addy
 
         public void ShowRewardedAd(string tag)
         {
-            if (!MaxSdk.IsRewardedAdReady(adID)) return;
+            print("[ApplovinMAX] ShowRewardedAd");
+            if (!MaxSdk.IsRewardedAdReady(adID))
+            {
+                print("[ApplovinMAX] Rewarded video ad not ready");
+                onRewardedAdFailed?.Invoke();
+                return;
+            }
+
             _latestRewardedVideoTag = tag;
             MaxSdk.ShowRewardedAd(adID);
         }

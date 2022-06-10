@@ -17,6 +17,7 @@ namespace pow.addy
 
         public void InitializeInterstitialAds()
         {
+            print("[ApplovinMAX] InitializeInterstitialAds");
             // Attach callback
             MaxSdkCallbacks.Interstitial.OnAdLoadedEvent += OnInterstitialLoadedEvent;
             MaxSdkCallbacks.Interstitial.OnAdLoadFailedEvent += OnInterstitialLoadFailedEvent;
@@ -32,11 +33,13 @@ namespace pow.addy
 
         private void LoadInterstitial()
         {
+            print("[ApplovinMAX] LoadInterstitial");
             MaxSdk.LoadInterstitial(adID);
         }
 
         private void OnInterstitialLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnInterstitialLoadedEvent");
             // Interstitial ad is ready for you to show. MaxSdk.IsInterstitialReady(adUnitId) now returns 'true'
 
             print("Waterfall Name: " + adInfo.WaterfallInfo.Name + " and Test Name: " + adInfo.WaterfallInfo.TestName);
@@ -72,6 +75,7 @@ namespace pow.addy
 
         private void OnInterstitialLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
         {
+            print("[ApplovinMAX] OnInterstitialLoadFailedEvent");
             // Interstitial ad failed to load 
             // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds)
 
@@ -95,6 +99,7 @@ namespace pow.addy
 
         private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnInterstitialDisplayedEvent");
             AdEventController.Instance.SendInterstitialShowEvent(adInfo.NetworkName, _latestInterstitialTag);
 
             // TODO: Create onInterstitialDisplayed game event and invoke from there,
@@ -110,6 +115,7 @@ namespace pow.addy
         private void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo,
             MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnInterstitialAdFailedToDisplayEvent");
             // TODO: Send error info to analytics with parameter
             AdEventController.Instance.SendInterstitialFailedShowEvent(adInfo.NetworkName, _latestInterstitialTag);
             // Interstitial ad failed to display. AppLovin recommends that you load the next ad.
@@ -118,11 +124,13 @@ namespace pow.addy
 
         private void OnInterstitialClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnInterstitialClickedEvent");
             AdEventController.Instance.SendInterstitialClickedEvent(adInfo.NetworkName, _latestInterstitialTag);
         }
 
         private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnInterstitialHiddenEvent");
             // TODO: Create OnInterstitialHiddenEvent game event and invoke from there,
             onInterstitialHidden?.Invoke();
             adEventHandler.RaiseInterstitialAdCompleteEvent();
@@ -138,6 +146,7 @@ namespace pow.addy
 
         public void ShowInterstitial(string tag)
         {
+            print("[ApplovinMAX] ShowInterstitial");
             if (!MaxSdk.IsInterstitialReady(adID)) return;
             _latestInterstitialTag = tag;
             MaxSdk.ShowInterstitial(adID);

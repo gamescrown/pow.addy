@@ -5,10 +5,9 @@ namespace pow.addy
 {
     public class BannerController : BaseAdController
     {
-        // Retrieve the ID from your account
-
         public void InitializeBannerAds()
         {
+            print("[ApplovinMAX] InitializeBannerAds");
             // Banners are automatically sized to 320×50 on phones and 728×90 on tablets
             // You may call the utility method MaxSdkUtils.isTablet() to help with view sizing adjustments
             MaxSdk.CreateBanner(adID, MaxSdkBase.BannerPosition.BottomCenter);
@@ -29,6 +28,7 @@ namespace pow.addy
 
         private void OnBannerAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnBannerAdLoadedEvent");
             double ecpm = adInfo.Revenue * (1000 * 100);
             AdEventController.Instance.SendEcpmEvent(ecpm);
             AdEventController.Instance.SendBannerLoadedEvent(adInfo.NetworkName);
@@ -36,28 +36,34 @@ namespace pow.addy
 
         private void OnBannerAdLoadFailedEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo)
         {
+            print("[ApplovinMAX] OnBannerAdLoadFailedEvent");
         }
 
         private void OnBannerAdClickedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnBannerAdClickedEvent");
             AdEventController.Instance.SendBannerClickedEvent(adInfo.NetworkName);
         }
 
         private void OnBannerAdExpandedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnBannerAdExpandedEvent");
         }
 
         private void OnBannerAdCollapsedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
+            print("[ApplovinMAX] OnBannerAdCollapsedEvent");
         }
 
         public void ShowBanner()
         {
+            print("[ApplovinMAX] ShowBanner");
             MaxSdk.ShowBanner(adID);
         }
 
         public void HideBanner()
         {
+            print("[ApplovinMAX] HideBanner");
             MaxSdk.HideBanner(adID);
         }
     }
