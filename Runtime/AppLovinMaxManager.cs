@@ -73,17 +73,17 @@ namespace pow.addy
             MaxSdk.InitializeSdk();
         }
 
-        public void ShowInterstitial(Action onCompleteAction, string tag)
+        public void ShowInterstitial(string interstitialTag, Action onCompleteAction)
         {
             adEventHandler.SetInterstitialCompletedAction(onCompleteAction);
-            _interstitialController.ShowInterstitial(tag);
+            _interstitialController.ShowInterstitial(interstitialTag);
         }
 
-        public void ShowRewarded(Action onCompletedAction, Action onFailedAction, string tag)
+        public void ShowRewarded(string rewardedTag, Action onCompletedAction, Action onFailedAction)
         {
             adEventHandler.SetRewardedCompletedAction(onCompletedAction);
             adEventHandler.SetRewardedFailedAction(onFailedAction);
-            _rewardedController.ShowRewardedAd(tag);
+            _rewardedController.ShowRewardedAd(rewardedTag);
         }
 
         public void ShowBanner()
