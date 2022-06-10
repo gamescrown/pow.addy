@@ -13,12 +13,10 @@ namespace pow.addy
     public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
         [SerializeField] private AdEventHandler adEventHandler;
-        [Header("IOS")] 
-        [SerializeField] internal string bannerIdIOS;
+        [Header("IOS")] [SerializeField] internal string bannerIdIOS;
         [SerializeField] internal string rewardedIdIOS;
         [SerializeField] internal string interstitialIdIOS;
-        [Header("ANDROID")] 
-        [SerializeField] internal string bannerIdAndroid;
+        [Header("ANDROID")] [SerializeField] internal string bannerIdAndroid;
         [SerializeField] internal string rewardedIdAndroid;
         [SerializeField] internal string interstitialIdAndroid;
 
@@ -55,9 +53,9 @@ namespace pow.addy
                 _bannerController.InitializeBannerAds();
 
                 MaxSdk.SetVerboseLogging(true);
-                
+
                 // TODO: Remove on release build
-                MaxSdk.ShowMediationDebugger(); 
+                MaxSdk.ShowMediationDebugger();
 
 
 //                if (sdkConfiguration.ConsentDialogState == MaxSdkBase.ConsentDialogState.Applies)
@@ -75,15 +73,16 @@ namespace pow.addy
             MaxSdk.InitializeSdk();
         }
 
-        public void ShowInterstitial(Action onCompleteAction,string tag)
+        public void ShowInterstitial(Action onCompleteAction, string tag)
         {
             adEventHandler.SetInterstitialCompletedAction(onCompleteAction);
             _interstitialController.ShowInterstitial(tag);
         }
 
-        public void ShowRewarded(Action onCompleteAction,string tag)
+        public void ShowRewarded(Action onCompletedAction, Action onFailedAction, string tag)
         {
-            adEventHandler.SetRewardedCompletedAction(onCompleteAction);
+            adEventHandler.SetRewardedCompletedAction(onCompletedAction);
+            adEventHandler.SetRewardedFailedAction(onFailedAction);
             _rewardedController.ShowRewardedAd(tag);
         }
 

@@ -66,10 +66,7 @@ namespace pow.addy
             print("[ApplovinMAX] OnRewardedAdDisplayedEvent");
             onRewardedAdDisplayed?.Invoke();
             AdEventController.Instance.SendRewardedVideoDisplayedEvent(adInfo.NetworkName, _latestRewardedVideoTag);
-            // start timer for this ad identifier
-            //GameAnalytics.StartTimer(_latestRewardedVideoTag.ToString());
             //_isSoundAlreadyOn = settings.IsMusicOn;
-            //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
             //if (settings.IsMusicOn) settings.ToggleMusicWithoutSaving();
             //interstitialAdTracker.DelayRewardedToInt();
         }
@@ -78,6 +75,7 @@ namespace pow.addy
             MaxSdkBase.AdInfo adInfo)
         {
             print("[ApplovinMAX] OnRewardedAdFailedToDisplayEvent");
+            adEventHandler.RaiseRewardedAdFailedEvent();
             AdEventController.Instance.SendRewardedVideoFailedShowEvent(adInfo.NetworkName,
                 _latestRewardedVideoTag);
             // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
@@ -116,7 +114,6 @@ namespace pow.addy
 
             onRewardedAdCompleted?.Invoke();
             adEventHandler.RaiseRewardedAdCompleteEvent();
-            //GiveReward();
             //if (_isSoundAlreadyOn) settings.ToggleMusicWithoutSaving();
 
             // The rewarded ad displayed and the user should receive the reward.
@@ -129,7 +126,7 @@ namespace pow.addy
             if (!MaxSdk.IsRewardedAdReady(adID))
             {
                 print("[ApplovinMAX] Rewarded video ad not ready");
-                onRewardedAdFailed?.Invoke();
+                adEventHandler.RaiseRewardedAdFailedEvent();
                 return;
             }
 

@@ -8,6 +8,7 @@ namespace pow.addy
     {
         private Action onInterstitialAdCompleted;
         private Action onRewardedAdCompleted;
+        private Action onRewardedAdFailed;
 
         public void SetInterstitialCompletedAction(Action action)
         {
@@ -17,6 +18,11 @@ namespace pow.addy
         public void SetRewardedCompletedAction(Action action)
         {
             onRewardedAdCompleted = action;
+        }
+
+        public void SetRewardedFailedAction(Action action)
+        {
+            onRewardedAdFailed = action;
         }
 
         public void RaiseInterstitialAdCompleteEvent()
@@ -29,6 +35,12 @@ namespace pow.addy
         {
             onRewardedAdCompleted?.Invoke();
             onRewardedAdCompleted = null;
+        }
+
+        public void RaiseRewardedAdFailedEvent()
+        {
+            onRewardedAdFailed?.Invoke();
+            onRewardedAdFailed = null;
         }
     }
 }
