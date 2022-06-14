@@ -99,5 +99,10 @@ namespace pow.addy
         {
             _bannerController.HideBanner();
         }
+
+        public float GetAdaptiveBannerHeight()
+        {
+            return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
+        }
     }
 }
