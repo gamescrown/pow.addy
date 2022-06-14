@@ -14,6 +14,8 @@ namespace pow.addy
     public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
         [SerializeField] private AdEventHandler adEventHandler;
+        [SerializeField] internal string maxSdkKey;
+
         [Header("IOS")] [SerializeField] internal string bannerIdIOS;
         [SerializeField] internal string rewardedIdIOS;
         [SerializeField] internal string interstitialIdIOS;
@@ -71,6 +73,7 @@ namespace pow.addy
 //                }
             };
 
+            MaxSdk.SetSdkKey(maxSdkKey);
             MaxSdk.InitializeSdk();
         }
 
