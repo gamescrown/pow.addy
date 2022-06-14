@@ -11,7 +11,7 @@ namespace pow.addy
             // Banners are automatically sized to 320×50 on phones and 728×90 on tablets
             // You may call the utility method MaxSdkUtils.isTablet() to help with view sizing adjustments
             MaxSdk.CreateBanner(adID, MaxSdkBase.BannerPosition.BottomCenter);
-            MaxSdk.SetBannerExtraParameter(adID, "adaptive_banner", "true");
+            //MaxSdk.SetBannerExtraParameter(adID, "adaptive_banner", "true");
 
             // For adaptive banners
             //MaxSdk.SetBannerExtraParameter(bannerAdUnitId, "adaptive_banner", "true");
