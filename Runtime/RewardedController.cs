@@ -131,7 +131,7 @@ namespace pow.addy
             }
 
             _latestRewardedVideoTag = tag;
-            MaxSdk.ShowRewardedAd(adID);
+            MaxSdk.ShowRewardedAd(adID, tag);
         }
     }
 }

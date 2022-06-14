@@ -149,7 +149,7 @@ namespace pow.addy
             print("[ApplovinMAX] ShowInterstitial");
             if (!MaxSdk.IsInterstitialReady(adID)) return;
             _latestInterstitialTag = tag;
-            MaxSdk.ShowInterstitial(adID);
+            MaxSdk.ShowInterstitial(adID, tag);
         }
     }
 }
