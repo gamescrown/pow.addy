@@ -108,6 +108,7 @@ namespace pow.addy
 
         public void SetConsentStatus(bool hasUserConsent)
         {
+            policies.HasUserConsent = hasUserConsent ? 1 : 0;
             MaxSdk.SetHasUserConsent(hasUserConsent);
             print($"[ApplovinMAX] OnSetUserConsentStatus");
             onSetUserConsentStatus?.Invoke();
