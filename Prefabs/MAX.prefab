@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}
+  policies: {fileID: 0}
+  onSetUserConsentStatus: {fileID: 11400000, guid: e0e8aa5c5d44a4971b3d59c1b6593571, type: 2}
+  maxSdkKey: 
   bannerIdIOS: 
   rewardedIdIOS: 
   interstitialIdIOS: 
