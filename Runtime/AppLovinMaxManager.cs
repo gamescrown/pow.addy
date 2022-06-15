@@ -58,7 +58,7 @@ namespace pow.addy
                 MaxSdk.SetVerboseLogging(true);
 
                 // TODO: Remove on release build
-                MaxSdk.ShowMediationDebugger();
+                //MaxSdk.ShowMediationDebugger();
 
 
 //                if (sdkConfiguration.ConsentDialogState == MaxSdkBase.ConsentDialogState.Applies)
