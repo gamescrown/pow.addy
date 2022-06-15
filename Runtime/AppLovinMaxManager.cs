@@ -17,6 +17,7 @@ namespace pow.addy
         [SerializeField] private AdEventHandler adEventHandler;
         [SerializeField] private Policies policies;
         [SerializeField] private GameEvent onSetUserConsentStatus;
+        [SerializeField] private GameEvent onShowUserConsentPopup;
         [SerializeField] internal string maxSdkKey;
 
         [Header("IOS")] [SerializeField] internal string bannerIdIOS;
@@ -70,20 +71,33 @@ namespace pow.addy
                     // Show user consent dialog
 
 #if UNITY_ANDROID
-                    print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies ShowConsentDialog");
-                    MaxSdk.UserService.ShowConsentDialog();
+                    if (policies.HasUserConsent != -1)
+                    {
+                        print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies ShowConsentDialog on Android");
+                        onShowUserConsentPopup?.Invoke();
+                    }
+                    else
+                    {
+                        print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies user already see consent popup");
+                    }
+
+#else
+                    print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on ios");
+                    SetConsentStatus(true);
 #endif
                 }
                 else if (sdkConfiguration.ConsentDialogState == MaxSdkBase.ConsentDialogState.DoesNotApply)
                 {
                     // No need to show consent dialog, proceed with initialization
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.DoesNotApply");
+                    SetConsentStatus(true);
                 }
                 else
                 {
                     // Consent dialog state is unknown. Proceed with initialization, but check if the consent
                     // dialog should be shown on the next application initialization
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Unknown");
+                    SetConsentStatus(true);
                 }
             };
 
@@ -91,9 +105,9 @@ namespace pow.addy
             MaxSdk.InitializeSdk();
         }
 
-        private IEnumerator OnSetUserConsentStatus()
+        public void SetConsentStatus(bool hasUserConsent)
         {
-            yield return new WaitUntil(() => MaxSdk.IsUserConsentSet());
+            MaxSdk.SetHasUserConsent(hasUserConsent);
             print($"[ApplovinMAX] OnSetUserConsentStatus");
             onSetUserConsentStatus?.Invoke();
         }
