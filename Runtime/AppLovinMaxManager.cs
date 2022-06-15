@@ -71,7 +71,7 @@ namespace pow.addy
                     // Show user consent dialog
 
 #if UNITY_ANDROID
-                    if (policies.HasUserConsent != -1)
+                    if (policies.HasUserConsent == -1)
                     {
                         print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies ShowConsentDialog on Android");
                         onShowUserConsentPopup?.Invoke();
@@ -79,6 +79,7 @@ namespace pow.addy
                     else
                     {
                         print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies user already see consent popup");
+                        SetConsentStatus(policies.HasUserConsent == 1);
                     }
 
 #else
