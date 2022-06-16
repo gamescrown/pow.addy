@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using com.adjust.sdk;
 using pow.aidkit;
 using pow.hermes;
 using UnityEngine;
@@ -104,6 +105,11 @@ namespace pow.addy
 
             MaxSdk.SetSdkKey(maxSdkKey);
             MaxSdk.InitializeSdk();
+        }
+
+        public void SetUserId()
+        {
+            MaxSdk.SetUserId(Adjust.getAdid());
         }
 
         public void SetConsentStatus(bool hasUserConsent)
