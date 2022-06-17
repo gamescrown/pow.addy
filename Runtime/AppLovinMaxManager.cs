@@ -107,6 +107,16 @@ namespace pow.addy
             MaxSdk.InitializeSdk();
         }
 
+        public bool IsInitialized()
+        {
+            return MaxSdk.IsInitialized();
+        }
+
+        public void SetUserSegment(string segment)
+        {
+            MaxSdk.UserSegment.Name = segment;
+        }
+
         public void SetUserId()
         {
             MaxSdk.SetUserId(Adjust.getAdid());
