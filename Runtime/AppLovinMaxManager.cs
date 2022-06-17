@@ -3,6 +3,7 @@ using System.Collections;
 using com.adjust.sdk;
 using pow.aidkit;
 using pow.hermes;
+using Unity.Notifications.iOS;
 using UnityEngine;
 
 namespace pow.addy
@@ -52,8 +53,25 @@ namespace pow.addy
 
         private void Start()
         {
+            MaxSdk.SetSdkKey("YOUR_SDK_KEY_HERE");
+
+            MaxSdk.SetUserId("USER_ID");
+            Adjust.addSessionCallbackParameter("YOUR_USER_ID_KEY", "USER_ID");
+
+            MaxSdk.InitializeSdk();
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
+                // You can check app transparency tracking authorization in sdkConfiguration.AppTrackingStatus for Unity Editor and iOS targets.
+                // Initialize other third-party SDKs; do not initialize mediated advertising SDKs (MAX does that for you). Not following this step will result in noticeable integration issues.
+
+                // Initialize the Adjust SDK inside the AppLovin SDK's initialization callback
+                string adjustAppToken = "{YOUR_ADJUST_APP_TOKEN}";
+                AdjustEnvironment adjustEnvironment = AdjustEnvironment.Production;
+                AdjustConfig config = new AdjustConfig(adjustAppToken, adjustEnvironment);
+
+                Adjust.start(config);
+
+                // Start loading ads
                 // AppLovin SDK is initialized, start loading ads
                 _interstitialController.InitializeInterstitialAds();
                 _rewardedController.InitializeRewardedAds();
@@ -83,8 +101,13 @@ namespace pow.addy
                         SetConsentStatus(policies.HasUserConsent == 1);
                     }
 
-#else
+#elif UNITY_IOS
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on ios");
+                    StartCoroutine(NotificationsRequestAuthorization());
+                    print("[ApplovinMAX] NotificationsRequestAuthorization on ios");
+                    SetConsentStatus(true);
+#else
+                    print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on editor");
                     SetConsentStatus(true);
 #endif
                 }
@@ -112,6 +135,7 @@ namespace pow.addy
             return MaxSdk.IsInitialized();
         }
 
+        // Called from OnAdjustInitiazlied game event
         public void SetUserSegment(string segment)
         {
             MaxSdk.UserSegment.Name = segment;
@@ -156,6 +180,26 @@ namespace pow.addy
         public float GetAdaptiveBannerHeight()
         {
             return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
+        }
+
+        private IEnumerator NotificationsRequestAuthorization()
+        {
+            var authorizationOption = AuthorizationOption.Alert | AuthorizationOption.Badge;
+            using (var req = new AuthorizationRequest(authorizationOption, true))
+            {
+                if (BaseEventController.InstanceExists)
+                    BaseEventController.Instance.SendNotificationPermissionViewEvent();
+                yield return new WaitUntil(() => req.IsFinished);
+
+                string res = "\n RequestAuthorization:";
+                res += "\n finished: " + req.IsFinished;
+                res += "\n granted :  " + req.Granted;
+                res += "\n error:  " + req.Error;
+                res += "\n deviceToken:  " + req.DeviceToken;
+                Debug.Log(res);
+                if (BaseEventController.InstanceExists)
+                    BaseEventController.Instance.SendNotificationPermissionPassEvent(req.Granted);
+            }
         }
     }
 }
