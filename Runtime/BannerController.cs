@@ -14,7 +14,7 @@ namespace pow.addy
             //MaxSdk.SetBannerExtraParameter(adID, "adaptive_banner", "true");
 
             // For adaptive banners
-            //MaxSdk.SetBannerExtraParameter(bannerAdUnitId, "adaptive_banner", "true");
+            MaxSdk.SetBannerExtraParameter(adID, "adaptive_banner", "true");
 
             // Set background or background color for banners to be fully functional
             //MaxSdk.SetBannerBackgroundColor(adID, Color.white);
