@@ -102,9 +102,6 @@ namespace pow.addy
                     }
 
 #elif UNITY_IOS
-                    print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on ios");
-                    StartCoroutine(NotificationsRequestAuthorization());
-                    print("[ApplovinMAX] NotificationsRequestAuthorization on ios");
                     SetConsentStatus(true);
 #else
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on editor");
@@ -181,27 +178,5 @@ namespace pow.addy
         {
             return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
         }
-
-#if UNITY_IOS
-        private IEnumerator NotificationsRequestAuthorization()
-        {
-            var authorizationOption = AuthorizationOption.Alert | AuthorizationOption.Badge;
-            using (var req = new AuthorizationRequest(authorizationOption, true))
-            {
-                if (BaseEventController.InstanceExists)
-                    BaseEventController.Instance.SendNotificationPermissionViewEvent();
-                yield return new WaitUntil(() => req.IsFinished);
-
-                string res = "\n RequestAuthorization:";
-                res += "\n finished: " + req.IsFinished;
-                res += "\n granted :  " + req.Granted;
-                res += "\n error:  " + req.Error;
-                res += "\n deviceToken:  " + req.DeviceToken;
-                Debug.Log(res);
-                if (BaseEventController.InstanceExists)
-                    BaseEventController.Instance.SendNotificationPermissionPassEvent(req.Granted);
-            }
-        }
-#endif
     }
 }

@@ -7,9 +7,7 @@
         "MaxSdk.Scripts.Editor",
         "Pow.AidKit",
         "POW.hermes",
-        "POW.Adjust",
-        "Unity.Notifications.iOS",
-        "Unity.Notifications.Android"
+        "POW.Adjust"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
