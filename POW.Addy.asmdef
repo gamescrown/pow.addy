@@ -8,7 +8,8 @@
         "Pow.AidKit",
         "POW.hermes",
         "POW.Adjust",
-        "Unity.Notifications.iOS"
+        "Unity.Notifications.iOS",
+        "Unity.Notifications.Android"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
