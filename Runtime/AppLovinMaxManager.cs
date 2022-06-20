@@ -182,6 +182,7 @@ namespace pow.addy
             return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
         }
 
+#if UNITY_IOS
         private IEnumerator NotificationsRequestAuthorization()
         {
             var authorizationOption = AuthorizationOption.Alert | AuthorizationOption.Badge;
@@ -201,5 +202,6 @@ namespace pow.addy
                     BaseEventController.Instance.SendNotificationPermissionPassEvent(req.Granted);
             }
         }
+#endif
     }
 }
