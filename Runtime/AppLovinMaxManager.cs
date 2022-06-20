@@ -3,7 +3,6 @@ using System.Collections;
 using com.adjust.sdk;
 using pow.aidkit;
 using pow.hermes;
-using Unity.Notifications.iOS;
 using UnityEngine;
 
 namespace pow.addy
