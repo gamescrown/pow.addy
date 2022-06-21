@@ -79,6 +79,8 @@ namespace pow.addy
                 MaxSdk.SetVerboseLogging(true);
 
                 // TODO: Remove on release build
+                // TODO: Control test devices adId from remote config and show applovin debugger on only this devices
+                // TODO: Add POW_DEBUG flag to project settings and activate it on development builds
                 //MaxSdk.ShowMediationDebugger();
             };
 
