@@ -79,7 +79,7 @@ namespace pow.addy
                 MaxSdk.SetVerboseLogging(true);
 
                 // TODO: Remove on release build
-                MaxSdk.ShowMediationDebugger();
+                //MaxSdk.ShowMediationDebugger();
             };
 
             MaxSdkCallbacks.OnSdkInitializedEvent += (sdkConfiguration) =>
