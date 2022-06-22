@@ -57,7 +57,6 @@ namespace pow.addy
             MaxSdk.SetUserId("USER_ID");
             Adjust.addSessionCallbackParameter("YOUR_USER_ID_KEY", "USER_ID");
 
-            MaxSdk.InitializeSdk();
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
                 // You can check app transparency tracking authorization in sdkConfiguration.AppTrackingStatus for Unity Editor and iOS targets.
