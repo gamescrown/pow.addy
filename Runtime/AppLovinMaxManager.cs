@@ -52,22 +52,17 @@ namespace pow.addy
 
         private void Start()
         {
-            MaxSdk.SetSdkKey("YOUR_SDK_KEY_HERE");
-
-            MaxSdk.SetUserId("USER_ID");
-            Adjust.addSessionCallbackParameter("YOUR_USER_ID_KEY", "USER_ID");
-
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
                 // You can check app transparency tracking authorization in sdkConfiguration.AppTrackingStatus for Unity Editor and iOS targets.
                 // Initialize other third-party SDKs; do not initialize mediated advertising SDKs (MAX does that for you). Not following this step will result in noticeable integration issues.
 
                 // Initialize the Adjust SDK inside the AppLovin SDK's initialization callback
-                string adjustAppToken = "{YOUR_ADJUST_APP_TOKEN}";
-                AdjustEnvironment adjustEnvironment = AdjustEnvironment.Production;
-                AdjustConfig config = new AdjustConfig(adjustAppToken, adjustEnvironment);
+                //string adjustAppToken = "{YOUR_ADJUST_APP_TOKEN}";
+                //AdjustEnvironment adjustEnvironment = AdjustEnvironment.Production;
+                //AdjustConfig config = new AdjustConfig(adjustAppToken, adjustEnvironment);
 
-                Adjust.start(config);
+                //Adjust.start(config);
 
                 // Start loading ads
                 // AppLovin SDK is initialized, start loading ads
