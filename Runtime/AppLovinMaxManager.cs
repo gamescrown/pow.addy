@@ -173,5 +173,16 @@ namespace pow.addy
         {
             return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
         }
+
+        public float GetBannerHeight()
+        {
+#if UNITY_EDITOR
+            return 180f;
+#elif UNITY_IOS
+            return 168f;
+#elif UNITY_ANDROID
+            return 180f;
+#endif
+        }
     }
 }
