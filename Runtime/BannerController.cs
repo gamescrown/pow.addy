@@ -1,5 +1,4 @@
 using pow.hermes;
-using UnityEngine;
 
 namespace pow.addy
 {
@@ -30,8 +29,8 @@ namespace pow.addy
         private void OnBannerAdLoadedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             print("[ApplovinMAX] OnBannerAdLoadedEvent");
-            double ecpm = adInfo.Revenue * (1000 * 100);
-            AdEventController.Instance.SendEcpmEvent(ecpm);
+            double cpm = adInfo.Revenue * (1000 * 100);
+            AdEventController.Instance.SendEcpmEvent(cpm);
             AdEventController.Instance.SendBannerLoadedEvent(adInfo.NetworkName);
         }
 

@@ -1,16 +1,10 @@
 using System;
-using pow.aidkit;
 using pow.hermes;
-using UnityEngine;
 
 namespace pow.addy
 {
     public class InterstitialController : BaseAdController
     {
-        [SerializeField] private GameEvent onInterstitialDisplayed;
-        [SerializeField] private GameEvent onInterstitialHidden;
-
-
         private int _retryAttempt;
         private string _interstitialNetworkName;
         private string _latestInterstitialTag;
@@ -65,9 +59,9 @@ namespace pow.addy
                 adInfo.NetworkName,
                 InterstitialTag.untagged.ToString()
             );
-            double ecpm = adInfo.Revenue * (1000 * 100);
-            AdEventController.Instance.SendEcpmEvent(ecpm);
-            AdEventController.Instance.SendEcpmEventExcludeBanner(ecpm);
+            double cpm = adInfo.Revenue * (1000 * 100);
+            AdEventController.Instance.SendEcpmEvent(cpm);
+            AdEventController.Instance.SendEcpmEventExcludeBanner(cpm);
 
             // Reset retry attempt
             _retryAttempt = 0;
@@ -94,22 +88,13 @@ namespace pow.addy
             _retryAttempt++;
             double retryDelay = Math.Pow(2, Math.Min(6, _retryAttempt));
 
-            Invoke("LoadInterstitial", (float) retryDelay);
+            Invoke(nameof(LoadInterstitial), (float) retryDelay);
         }
 
         private void OnInterstitialDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             print("[ApplovinMAX] OnInterstitialDisplayedEvent");
             AdEventController.Instance.SendInterstitialShowEvent(adInfo.NetworkName, _latestInterstitialTag);
-
-            // TODO: Create onInterstitialDisplayed game event and invoke from there,
-            onInterstitialDisplayed?.Invoke();
-            // TODO: Comment line functions will be listen created game event 
-            //gameStateSo.GameState = GameState.Pause;
-            //_isSoundAlreadyOn = settings.IsMusicOn;
-            //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
-            //if (settings.IsMusicOn) settings.ToggleMusicWithoutSaving();
-            //SaveInterstitialTimeIntervals();
         }
 
         private void OnInterstitialAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo,
@@ -131,25 +116,17 @@ namespace pow.addy
         private void OnInterstitialHiddenEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             print("[ApplovinMAX] OnInterstitialHiddenEvent");
-            // TODO: Create OnInterstitialHiddenEvent game event and invoke from there,
-            onInterstitialHidden?.Invoke();
             adEventHandler.RaiseInterstitialAdCompleteEvent();
-            // TODO: Comment line functions will be listen created game event 
-            //gameStateSo.GameState = gameStateSo.LastGameState;
-            //Debug.Log("Is sound already on " + _isSoundAlreadyOn);
-            //if (_isSoundAlreadyOn) settings.ToggleMusicWithoutSaving();
-            //LoadInterstitialTimeIntervals();
-
             // Interstitial ad is hidden. Pre-load the next ad.
             LoadInterstitial();
         }
 
-        public void ShowInterstitial(string tag)
+        public void ShowInterstitial(string interstitialTag)
         {
             print("[ApplovinMAX] ShowInterstitial");
             if (!MaxSdk.IsInterstitialReady(adID)) return;
-            _latestInterstitialTag = tag;
-            MaxSdk.ShowInterstitial(adID, tag);
+            _latestInterstitialTag = interstitialTag;
+            MaxSdk.ShowInterstitial(adID, interstitialTag);
         }
     }
 }

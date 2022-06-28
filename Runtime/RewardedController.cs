@@ -59,9 +59,6 @@ namespace pow.addy
         {
             print("[ApplovinMAX] OnRewardedAdDisplayedEvent");
             AdEventController.Instance.SendRewardedVideoDisplayedEvent(adInfo.NetworkName, _latestRewardedVideoTag);
-            //_isSoundAlreadyOn = settings.IsMusicOn;
-            //if (settings.IsMusicOn) settings.ToggleMusicWithoutSaving();
-            //interstitialAdTracker.DelayRewardedToInt();
         }
 
         private void OnRewardedAdFailedToDisplayEvent(string adUnitId, MaxSdkBase.ErrorInfo errorInfo,
@@ -106,8 +103,6 @@ namespace pow.addy
             }
 
             adEventHandler.RaiseRewardedAdCompleteEvent();
-            //if (_isSoundAlreadyOn) settings.ToggleMusicWithoutSaving();
-
             // The rewarded ad displayed and the user should receive the reward.
             print("Rewarded user: " + reward.Amount + " " + reward.Label);
         }
