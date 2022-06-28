@@ -1,16 +1,10 @@
 using System;
-using pow.aidkit;
 using pow.hermes;
-using UnityEngine;
 
 namespace pow.addy
 {
     public class RewardedController : BaseAdController
     {
-        // TODO: Call this events for static functions
-        [SerializeField] private GameEvent onRewardedAdDisplayed;
-        [SerializeField] private GameEvent onRewardedAdCompleted;
-        [SerializeField] private GameEvent onRewardedAdFailed;
         private int _retryAttempt;
         private string _latestRewardedVideoTag;
 
@@ -42,9 +36,9 @@ namespace pow.addy
             print("[ApplovinMAX] OnRewardedAdLoadedEvent");
             // Rewarded ad is ready for you to show. MaxSdk.IsRewardedAdReady(adUnitId) now returns 'true'.
             AdEventController.Instance.SendRewardedVideoLoadedEvent("null", RewardedVideoTag.untagged);
-            double ecpm = adInfo.Revenue * (1000 * 100);
-            AdEventController.Instance.SendEcpmEvent(ecpm);
-            AdEventController.Instance.SendEcpmEventExcludeBanner(ecpm);
+            double cpm = adInfo.Revenue * (1000 * 100);
+            AdEventController.Instance.SendEcpmEvent(cpm);
+            AdEventController.Instance.SendEcpmEventExcludeBanner(cpm);
             // Reset retry attempt
             _retryAttempt = 0;
         }
@@ -53,18 +47,17 @@ namespace pow.addy
         {
             print("[ApplovinMAX] OnRewardedAdLoadFailedEvent");
             // Rewarded ad failed to load 
-            // AppLovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
+            // Applovin recommends that you retry with exponentially higher delays, up to a maximum delay (in this case 64 seconds).
 
             _retryAttempt++;
             double retryDelay = Math.Pow(2, Math.Min(6, _retryAttempt));
 
-            Invoke("LoadRewardedAd", (float) retryDelay);
+            Invoke(nameof(LoadRewardedAd), (float) retryDelay);
         }
 
         private void OnRewardedAdDisplayedEvent(string adUnitId, MaxSdkBase.AdInfo adInfo)
         {
             print("[ApplovinMAX] OnRewardedAdDisplayedEvent");
-            onRewardedAdDisplayed?.Invoke();
             AdEventController.Instance.SendRewardedVideoDisplayedEvent(adInfo.NetworkName, _latestRewardedVideoTag);
             //_isSoundAlreadyOn = settings.IsMusicOn;
             //if (settings.IsMusicOn) settings.ToggleMusicWithoutSaving();
@@ -78,7 +71,7 @@ namespace pow.addy
             adEventHandler.RaiseRewardedAdFailedEvent();
             AdEventController.Instance.SendRewardedVideoFailedShowEvent(adInfo.NetworkName,
                 _latestRewardedVideoTag);
-            // Rewarded ad failed to display. AppLovin recommends that you load the next ad.
+            // Rewarded ad failed to display. Applovin recommends that you load the next ad.
             LoadRewardedAd();
         }
 
@@ -108,11 +101,10 @@ namespace pow.addy
                 _latestRewardedVideoTag == RewardedVideoTag.level_fail_popup_times_up_extra_time_rew.ToString()
             )
             {
-                double ecpm = adInfo.Revenue * (1000 * 100);
-                AdEventController.Instance.SendEcpmEventOnlyRewarded(ecpm);
+                double cpm = adInfo.Revenue * (1000 * 100);
+                AdEventController.Instance.SendEcpmEventOnlyRewarded(cpm);
             }
 
-            onRewardedAdCompleted?.Invoke();
             adEventHandler.RaiseRewardedAdCompleteEvent();
             //if (_isSoundAlreadyOn) settings.ToggleMusicWithoutSaving();
 
@@ -120,7 +112,7 @@ namespace pow.addy
             print("Rewarded user: " + reward.Amount + " " + reward.Label);
         }
 
-        public void ShowRewardedAd(string tag)
+        public void ShowRewardedAd(string rewardedTag)
         {
             print("[ApplovinMAX] ShowRewardedAd");
             if (!MaxSdk.IsRewardedAdReady(adID))
@@ -130,8 +122,8 @@ namespace pow.addy
                 return;
             }
 
-            _latestRewardedVideoTag = tag;
-            MaxSdk.ShowRewardedAd(adID, tag);
+            _latestRewardedVideoTag = rewardedTag;
+            MaxSdk.ShowRewardedAd(adID, rewardedTag);
         }
     }
 }
