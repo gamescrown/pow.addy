@@ -19,7 +19,6 @@ namespace pow.addy
         [SerializeField] private Policies policies;
         [SerializeField] private GameEvent onSetUserConsentStatus;
         [SerializeField] private GameEvent onShowUserConsentPopup;
-        [SerializeField] private GameEvent onTestUserFetched;
         [SerializeField] internal string maxSdkKey;
 
         [Header("IOS")] [SerializeField] internal string bannerIdIOS;
