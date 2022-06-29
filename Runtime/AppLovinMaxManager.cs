@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using com.adjust.sdk;
 using pow.aidkit;
 using pow.hermes;
@@ -18,6 +19,7 @@ namespace pow.addy
         [SerializeField] private Policies policies;
         [SerializeField] private GameEvent onSetUserConsentStatus;
         [SerializeField] private GameEvent onShowUserConsentPopup;
+        [SerializeField] private GameEvent onTestUserFetched;
         [SerializeField] internal string maxSdkKey;
 
         [Header("IOS")] [SerializeField] internal string bannerIdIOS;
@@ -171,6 +173,19 @@ namespace pow.addy
         public float GetAdaptiveBannerHeight()
         {
             return MaxSdkUtils.GetAdaptiveBannerHeight(Screen.width);
+        }
+
+        // Trigger Max Debugger after fetched test devices from firebase remote config
+        // Used from onTestUserFetched GameEvent
+        public void TriggerMaxDebugger()
+        {
+            StartCoroutine(WaitToMaxInitializedForShowDebugger());
+        }
+
+        private IEnumerator WaitToMaxInitializedForShowDebugger()
+        {
+            yield return new WaitUntil(() => MaxSdk.IsInitialized());
+            MaxSdk.ShowMediationDebugger();
         }
     }
 }

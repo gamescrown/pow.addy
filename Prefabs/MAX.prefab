@@ -61,8 +61,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}
-  onInterstitialDisplayed: {fileID: 11400000, guid: b017c93bb498840f286baa73b9c62650, type: 2}
-  onInterstitialHidden: {fileID: 11400000, guid: 2e743fbae7dc74a619a2127e16671b89, type: 2}
 --- !u!114 &4093345391771533447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,9 +74,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   adEventHandler: {fileID: 11400000, guid: 503fdd6ce2e23479bb4ba0836093f754, type: 2}
-  onRewardedAdDisplayed: {fileID: 11400000, guid: a00a6508d072d4866917551a620fa75a, type: 2}
-  onRewardedAdCompleted: {fileID: 11400000, guid: 429a081bb0a584200ae9d6bd0b3eb955, type: 2}
-  onRewardedAdFailed: {fileID: 11400000, guid: 25f6784f6a7a14965822051484484f16, type: 2}
 --- !u!114 &4093345391771533446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,6 +90,7 @@ MonoBehaviour:
   policies: {fileID: 0}
   onSetUserConsentStatus: {fileID: 11400000, guid: e0e8aa5c5d44a4971b3d59c1b6593571, type: 2}
   onShowUserConsentPopup: {fileID: 11400000, guid: 91394852859c842b5ba99d71685f3dcd, type: 2}
+  onTestUserFetched: {fileID: 11400000, guid: 7e2cbc0c92f6a4801b579cfced40a1d2, type: 2}
   maxSdkKey: 
   bannerIdIOS: 
   rewardedIdIOS: 
