@@ -16,6 +16,7 @@ namespace pow.addy
     public class AppLovinMaxManager : Singleton<AppLovinMaxManager>
     {
         [SerializeField] private AdEventHandler adEventHandler;
+        [SerializeField] private TestDeviceHandler testDeviceHandler;
         [SerializeField] private Policies policies;
         [SerializeField] private GameEvent onSetUserConsentStatus;
         [SerializeField] private GameEvent onShowUserConsentPopup;
@@ -99,6 +100,13 @@ namespace pow.addy
 
 #elif UNITY_IOS
                     SetConsentStatus(true);
+
+                    // Use this code blocks for ios only,
+                    // because att permission popup show at the first open and cant get adID from device if user's not allow tracking permission
+                    if (testDeviceHandler.AdId.StartsWith("0000") || string.IsNullOrEmpty(testDeviceHandler.AdId))
+                    {
+                        testDeviceHandler.GetDeviceAdIdOnIOS();
+                    }
 #else
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on editor");
                     SetConsentStatus(true);
