@@ -54,6 +54,7 @@ namespace pow.addy
         {
             MaxSdkCallbacks.OnSdkInitializedEvent += sdkConfiguration =>
             {
+                print("[ApplovinMAX] MaxSdk Initialized");
                 // You can check app transparency tracking authorization in sdkConfiguration.AppTrackingStatus for Unity Editor and iOS targets.
                 // Initialize other third-party SDKs; do not initialize mediated advertising SDKs (MAX does that for you). Not following this step will result in noticeable integration issues.
 
@@ -178,12 +179,15 @@ namespace pow.addy
         // Used from onTestUserFetched GameEvent
         public void TriggerMaxDebugger()
         {
+            print("[ApplovinMAX] Trigger Max Debugger");
             StartCoroutine(WaitToMaxInitializedForShowDebugger());
         }
 
         private IEnumerator WaitToMaxInitializedForShowDebugger()
         {
+            print("[ApplovinMAX] Trigger Max Debugger waiting sdk initializing...");
             yield return new WaitUntil(() => MaxSdk.IsInitialized());
+            print("[ApplovinMAX] Show Max Debugger");
             MaxSdk.ShowMediationDebugger();
         }
     }
