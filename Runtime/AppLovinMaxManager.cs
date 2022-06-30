@@ -78,6 +78,14 @@ namespace pow.addy
                 // TODO: Control test devices adId from remote config and show applovin debugger on only this devices
                 // TODO: Add POW_DEBUG flag to project settings and activate it on development builds
                 //MaxSdk.ShowMediationDebugger();
+#if UNITY_IOS
+                // Use this code blocks for ios only,
+                // because att permission popup show at the first open and cant get adID from device if user's not allow tracking permission
+                if (testDeviceHandler.AdId.StartsWith("0000") || string.IsNullOrEmpty(testDeviceHandler.AdId))
+                {
+                    testDeviceHandler.GetDeviceAdIdOnIOS();
+                }
+#endif
             };
 
             MaxSdkCallbacks.OnSdkInitializedEvent += (sdkConfiguration) =>
@@ -100,13 +108,6 @@ namespace pow.addy
 
 #elif UNITY_IOS
                     SetConsentStatus(true);
-
-                    // Use this code blocks for ios only,
-                    // because att permission popup show at the first open and cant get adID from device if user's not allow tracking permission
-                    if (testDeviceHandler.AdId.StartsWith("0000") || string.IsNullOrEmpty(testDeviceHandler.AdId))
-                    {
-                        testDeviceHandler.GetDeviceAdIdOnIOS();
-                    }
 #else
                     print("[ApplovinMAX] MaxSdkBase.ConsentDialogState.Applies not show consent dialog on editor");
                     SetConsentStatus(true);
