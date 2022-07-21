@@ -68,8 +68,8 @@ namespace pow.addy
 
                 // Start loading ads
                 // AppLovin SDK is initialized, start loading ads
-                _interstitialController.InitializeInterstitialAds();
                 _rewardedController.InitializeRewardedAds();
+                _interstitialController.InitializeInterstitialAds();
                 _bannerController.InitializeBannerAds();
 
                 MaxSdk.SetVerboseLogging(true);
